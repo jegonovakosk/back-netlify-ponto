@@ -1,9 +1,0 @@
-[build]
-  command = "npm run build"
-  functions = "dist"
-  publish = "dist"
-
-[[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/handler"
-  status = 200
