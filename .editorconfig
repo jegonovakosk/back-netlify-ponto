@@ -1,0 +1,23 @@
+# EditorConfig ajuda a manter estilos de codificação consistentes entre diferentes editores e IDEs
+root = true
+
+# Aplica a todas as linguagens e arquivos do projeto
+[*]
+# Definir o tipo de terminação de linha
+end_of_line = lf
+# Define a indentação usando espaços
+indent_style = space
+# Define o tamanho da indentação
+indent_size = 2
+# Insere uma nova linha no final do arquivo ao salvar
+insert_final_newline = true
+# Remove espaços em branco no final das linhas ao salvar
+trim_trailing_whitespace = true
+
+# Aplica configurações específicas para arquivos JSON
+[*.json]
+indent_size = 2
+
+# Aplica configurações específicas para arquivos Markdown
+[*.md]
+indent_size = 4
