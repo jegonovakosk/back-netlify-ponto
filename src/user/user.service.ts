@@ -1,5 +1,9 @@
 // src/user/user.service.ts
-import { Injectable, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
@@ -11,16 +15,20 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { email, password } = createUserDto;
-
+    const { email, password, userId, codeEmpresa } = createUserDto;
     const existingUser = await this.userModel.findOne({ email });
+
     if (existingUser) {
       throw new ConflictException('Email já está em uso.');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new this.userModel({ email, password: hashedPassword });
-
+    const newUser = new this.userModel({
+      email,
+      password: hashedPassword,
+      userId,
+      codeEmpresa,
+    });
     return newUser.save();
   }
 
@@ -37,5 +45,15 @@ export class UserService {
 
   async findAll(): Promise<User[]> {
     return this.userModel.find().exec(); // Usar 'lean()' para retornar objetos JS simples
+  }
+  async delete(id: string): Promise<{ deleted: boolean; message?: string }> {
+    const result = await this.userModel.deleteOne({ _id: id }).exec();
+    if (result.deletedCount === 0) {
+      throw new NotFoundException(`Usuário com id ${id} não encontrado.`);
+    }
+    return {
+      deleted: true,
+      message: `Usuário com id ${id} foi deletado com sucesso.`,
+    };
   }
 }

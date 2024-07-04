@@ -9,4 +9,10 @@ export class CreateUserDto {
   @IsNotEmpty()
   @MinLength(6)
   password: string;
+
+  @IsNotEmpty()
+  userId: string;
+
+  @IsNotEmpty()
+  codeEmpresa: string;
 }

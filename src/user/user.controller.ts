@@ -5,10 +5,14 @@ import {
   Body,
   BadRequestException,
   Get,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -28,5 +32,10 @@ export class UserController {
   @Get()
   async getAllUsers() {
     return this.userService.findAll();
+  }
+
+  @Delete('/:id')
+  async delete(@Param('id') id: string) {
+    return this.userService.delete(id);
   }
 }
