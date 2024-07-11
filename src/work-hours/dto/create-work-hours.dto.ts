@@ -21,4 +21,8 @@ export class CreateWorkHoursDto {
   @IsString()
   @Matches(/^\d{2}:\d{2}$/, { message: 'Invalid time format, expected HH:mm' })
   afternoonEnd: string;
+
+  @IsString()
+  @Matches(/^\d{2}:\d{2}$/, { message: 'Invalid time format, expected HH:mm' })
+  total: string;
 }

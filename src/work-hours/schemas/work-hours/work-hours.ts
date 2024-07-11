@@ -18,6 +18,9 @@ export class WorkHours extends Document {
   @Prop()
   afternoonEnd: string;
 
+  @Prop()
+  total: string;
+
   @Prop({ type: String, required: true })
   userId: string;
 }

@@ -44,9 +44,24 @@ export class WorkHoursService {
       .exec();
   }
 
-  async findAll(userId: string): Promise<WorkHours[]> {
-    // Filtre os registros pelo userId
-    return this.workHoursModel.find({ userId }).exec();
+  async findAll(
+    userId: string,
+    startDate?: string,
+    endDate?: string,
+  ): Promise<WorkHours[]> {
+    const query: any = { userId };
+
+    if (startDate || endDate) {
+      query.date = {};
+      if (startDate) {
+        query.date.$gte = new Date(startDate);
+      }
+      if (endDate) {
+        query.date.$lte = new Date(endDate);
+      }
+    }
+
+    return this.workHoursModel.find(query).exec();
   }
   async findOne(id: string, userId: string): Promise<WorkHours> {
     const workHour = await this.workHoursModel.findById(id).exec();
